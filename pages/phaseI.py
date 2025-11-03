@@ -1,17 +1,16 @@
 import requests
 import streamlit as st
 
-st.title("Movie Info Page")
+st.title("Lab03 Phase I")
 
 url = "http://www.omdbapi.com/?apikey=89d15140&"
 
-print("---------------------------------")
+st.text("---------------------------------")
 
 
 
+st.text("---------------------------------")
 
-print("---------------------------------")
-
-st.header("Posters")
+st.header("Keigo")
 m_data = requests.get(url + "t=Inception").json()
 st.image(m_data["Poster"], width=200)
