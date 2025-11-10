@@ -7,7 +7,35 @@ url = "http://www.omdbapi.com/?apikey=89d15140&"
 
 st.text("---------------------------------")
 st.title("🎬 Movie Rating Explorer")
+st.header("📊 Rating Comparison")
 
+if st.session_state.result:
+    min_rating = st.slider("Filter by minimum IMDB rating:", 0.0, 10.0, 0.0, 0.5)
+    
+    filtered_movies = [movie for movie in st.session_state.result if movie["Rating"] >= min_rating]
+    
+    if filtered_movies:
+        chart_data = {}
+        for movie in filtered_movies:
+            short_title = movie["Title"][:20] + "..." if len(movie["Title"]) > 20 else movie["Title"]
+            chart_data[short_title] = movie["Rating"]
+        
+        st.bar_chart(chart_data)
+        
+        st.subheader("📈 Quick Stats")
+        ratings = [movie["Rating"] for movie in filtered_movies]
+        
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Average Rating", f"{sum(ratings)/len(ratings):.1f}")
+        with col2:
+            st.metric("Highest Rating", f"{max(ratings):.1f}")
+        with col3:
+            st.metric("Movies", len(filtered_movies))
+    else:
+        st.warning(f"No movies found with rating {min_rating} or higher")
+else:
+    st.info("Search for movies to see the rating chart!")
 
 st.text("---------------------------------")
 
@@ -95,3 +123,4 @@ if st.session_state.result:
                 st.write(f"**IMDB Rating:** ⭐ {detail["imdbRating"]} / 10")
                 st.caption(detail.get("Plot","No plot available."))
             st.divider()
+
