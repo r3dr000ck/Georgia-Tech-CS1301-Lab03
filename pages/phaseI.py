@@ -12,7 +12,6 @@ st.title("🎬 Movie Rating Explorer")
 st.text("---------------------------------")
 
 st.header("Keigo")
-<<<<<<< HEAD
 
 if "movies" not in st.session_state:
     st.session_state.movies = []
@@ -96,8 +95,3 @@ if st.session_state.result:
                 st.write(f"**IMDB Rating:** ⭐ {detail["imdbRating"]} / 10")
                 st.caption(detail.get("Plot","No plot available."))
             st.divider()
-=======
-m_data = requests.get(url + "t=Inception").json()
-st.image(m_data["Poster"], width=200)
-
->>>>>>> 3ba242dd685077d5cfd6869ac9b2bff75b560a70
