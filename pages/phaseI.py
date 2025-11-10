@@ -5,9 +5,6 @@ st.title("Lab03 Phase I")
 
 url = "http://www.omdbapi.com/?apikey=89d15140&"
 
-API_KEY = "89d15140"
-BASE_URL = "http://www.omdbapi.com/"
-
 st.text("---------------------------------")
 st.title("🎬 Movie Rating Explorer")
 
@@ -36,7 +33,7 @@ sorted_by = st.selectbox(
 )
 
 if submitted:
-    res = requests.get(f"{BASE_URL}?apikey={API_KEY}&s={kw}")
+    res = requests.get(f"{url}&s={kw}")
     data = res.json()
 
     if data["Response"] == "True":
