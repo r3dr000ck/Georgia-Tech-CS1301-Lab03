@@ -9,6 +9,9 @@ st.text("---------------------------------")
 st.title("🎬 Movie Rating Explorer")
 st.header("📊 Rating Comparison")
 
+if "result" not in st.session_state:
+    st.session_state.result = []
+
 if st.session_state.result:
     min_rating = st.slider("Filter by minimum IMDB rating:", 0.0, 10.0, 0.0, 0.5)
     
@@ -44,8 +47,8 @@ st.header("Movie Search")
 if "movies" not in st.session_state:
     st.session_state.movies = []
 
-if "result" not in st.session_state:
-    st.session_state.result = []
+if "search" not in st.session_state:
+    st.session_state.search = []
 
 kw = st.text_input("Enter a keyword:", "Batman")
 submitted = st.button("Search")
@@ -87,26 +90,26 @@ if submitted:
                 "Detail": detail
             })
             
-        st.session_state.result = ret
+        st.session_state.search = ret
         st.session_state.kw = kw
     else:
         st.error("No results found. Try another keyword.")
 
-if st.session_state.result:
+if st.session_state.search:
     st.success(f"Showing results for '{st.session_state.get('kw','(previous search)')}'")
 
-    result = st.session_state.result.copy()
+    search = st.session_state.search.copy()
 
     if sorted_by == "IMDB Rating (High → Low)":
-        result = sorted(result, key=lambda x: x["Rating"], reverse=True)
+        search = sorted(search, key=lambda x: x["Rating"], reverse=True)
     elif sorted_by == "Released Year (Old → New)":
-        result = sorted(result, key=lambda x: x["Year"])
+        search = sorted(search, key=lambda x: x["Year"])
     elif sorted_by == "Released Year (New → Old)":
-        result = sorted(result, key=lambda x: x["Year"], reverse=True)
+        search = sorted(search, key=lambda x: x["Year"], reverse=True)
     elif sorted_by == "Title (A → Z)":
-        result = sorted(result, key=lambda x: x["Title"])
+        search = sorted(search, key=lambda x: x["Title"])
 
-    for m in result:
+    for m in search:
         title = m["Title"]
         poster = m["Poster"]
         detail = m["Detail"]
