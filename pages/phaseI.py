@@ -11,7 +11,7 @@ st.title("🎬 Movie Rating Explorer")
 
 st.text("---------------------------------")
 
-st.header("Keigo")
+st.header("Movie Search")
 
 if "movies" not in st.session_state:
     st.session_state.movies = []
@@ -40,7 +40,7 @@ if submitted:
         ret = []
         for m in data["Search"]:
             title = m["Title"]
-            detail = requests.get(f"{BASE_URL}?apikey={API_KEY}&t={title}").json()
+            detail = requests.get(f"{url}&t={title}").json()
             
             # print(detail["imdbRating"])
             
