@@ -125,3 +125,4 @@ if st.button("Generate Analysis"):
     except Exception as e:
         st.error("Something went wrong with Gemini.")
         st.text(str(e))
+
