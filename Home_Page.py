@@ -21,10 +21,9 @@ st.subheader("Aafsheen Anjum, Keigo Yoshioka")
 st.write("""
 Welcome to our Streamlit Web Development Lab03 app! You can navigate between the pages using the sidebar to the left. The following pages are:
 
-1.
-2.
-3.
-4.
+1. **AI Movie Deep Dive**: Generate AI-powered analyses comparing one or two movies using real-time data.
+2. **Movie Chatbot**: Chat with an AI that answers movie-related questions using contextual knowledge.
+3. **Movie Rating Explorer**: Visualize and compare IMDb ratings across movie series using OMDb data.
 
 """)
 
