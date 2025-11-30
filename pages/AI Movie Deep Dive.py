@@ -1,32 +1,20 @@
-import google.generativeai as genai
+import streamlit as st
 import requests
+import google.generativeai as genai
 
 GEMINI_API_KEY = "AIzaSyCQNy4vivWIVBlvT1hqRzz2VXs5nLuvPMU"
 
 genai.configure(api_key=GEMINI_API_KEY)
 model = genai.GenerativeModel("gemini-2.5-flash")
 
-url = "http://www.omdbapi.com/?apikey=89d15140&"
-
-# Example
-import streamlit as st
-import requests
-import google.generativeai as genai
+OMDB = "89d15140"
+URL = f"http://www.omdbapi.com/?apikey={OMDB}&"
 
 st.title("🎞️ AI Movie Deep Dive")
 st.write("Enter one or two movie titles and get an AI-generated analysis!")
 
-# Configure Gemini
-genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-model = genai.GenerativeModel("gemini-2.5-flash")
-
-OMDB = st.secrets["OMDB_API_KEY"]
-URL = f"http://www.omdbapi.com/?apikey={OMDB}&"
-
-# --------------------------------
-# --------------------------------
-movie1 = st.text_input("Movie 1 Title:", "")
-movie2 = st.text_input("Movie 2 Title (optional):", "")
+m1 = st.text_input("Movie 1 Title:", "")
+m2 = st.text_input("Movie 2 Title (optional):", "")
 
 analysis_type = st.selectbox(
     "What should the AI create?",
@@ -40,8 +28,6 @@ analysis_type = st.selectbox(
     ]
 )
 
-# --------------------------------
-# --------------------------------
 def get_movie(title):
     if not title:
         return None
@@ -50,61 +36,35 @@ def get_movie(title):
         return None
     return data
 
-# --------------------------------
-# BUTTON
-# --------------------------------
 if st.button("Generate Analysis"):
-    data1 = get_movie(movie1)
-    data2 = get_movie(movie2) if movie2 else None
+    d1 = get_movie(m1)
+    d2 = get_movie(m2) if m2 else None
 
-    if not data1:
+    if not d1:
         st.error("Movie 1 not found. Check your spelling.")
         st.stop()
 
-    st.subheader("Movie Information (from OMDb)")
-
-    # show movie 1
-    st.write(f"### 🎬 {data1['Title']} ({data1['Year']})")
-    st.write(f"**Genre:** {data1['Genre']}")
-    st.write(f"**Director:** {data1['Director']}")
-    st.write(f"**Plot:** {data1['Plot']}")
-    st.write("---")
-
-    # show movie 2 if exists
-    if data2:
-        st.write(f"### 🎬 {data2['Title']} ({data2['Year']})")
-        st.write(f"**Genre:** {data2['Genre']}")
-        st.write(f"**Director:** {data2['Director']}")
-        st.write(f"**Plot:** {data2['Plot']}")
-        st.write("---")
-
-    # --------------------------------
-
-    # --------------------------------
     movie_info = f"""
     MOVIE 1:
-    Title: {data1['Title']}
-    Year: {data1['Year']}
-    Genre: {data1['Genre']}
-    Director: {data1['Director']}
-    Plot: {data1['Plot']}
+    Title: {['Title']}
+    Year: {d1['Year']}
+    Genre: {d1['Genre']}
+    Director: {d1['Director']}
+    Plot: {d1['Plot']}
     """
 
-    if data2:
+    if d2:
         movie_info += f"""
 
         MOVIE 2:
-        Title: {data2['Title']}
-        Year: {data2['Year']}
-        Genre: {data2['Genre']}
-        Director: {data2['Director']}
-        Plot: {data2['Plot']}
+        Title: {d2['Title']}
+        Year: {d2['Year']}
+        Genre: {d2['Genre']}
+        Director: {d2['Director']}
+        Plot: {d2['Plot']}
         """
 
-    # --------------------------------
-    # GEMINI PROMPT
-    # --------------------------------
-    prompt = f"""
+    pmt = f"""
     You are a helpful movie expert.
 
     Create a **{analysis_type}** using only the movie information below:
@@ -114,15 +74,11 @@ if st.button("Generate Analysis"):
     Make the explanation clear and interesting.
     """
 
-    # --------------------------------
-    # CALL GEMINI
-    # --------------------------------
     try:
-        response = model.generate_content(prompt)
+        response = model.generate_content(pmt)
         st.subheader("📜 AI-Generated Analysis")
         st.write(response.text)
 
     except Exception as e:
         st.error("Something went wrong with Gemini.")
         st.text(str(e))
-

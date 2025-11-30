@@ -1,0 +1,2 @@
+### Movie Analytics Web App (Python, Streamlit)
+Built an interactive web application integrating OMDb API and Google Gemini LLM. Implemented data retrieval, visualization, and AI-powered movie analysis features (summaries, comparisons, chat). Designed multi-page UI, optimized API calls with caching, and created a context-aware chatbot with persistent conversation history.
