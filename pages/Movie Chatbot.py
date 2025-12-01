@@ -13,17 +13,10 @@ st.markdown("Ask me anything about movies!")
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-if "movie_context" not in st.session_state:
-    st.session_state.movie_context = ""
-
 def gen_resp(user_message):
     try:
         model = genai.GenerativeModel('gemini-2.5-flash')
-        pmt = f"""You are a helpful movie expert chatbot. You have access to the following movie information from OMDB:
-
-{st.session_state.movie_context}
-
-Use this information to answer questions about movies. If the user asks about a specific movie that isn't in your context, let them know you can search for it. Be conversational, enthusiastic about movies, and provide helpful recommendations."""
+        pmt = f"""You are a helpful movie expert chatbot. Use the information online to answer questions about movies. If the user asks about a specific movie that isn't in your context, let them know you can search for it. Be conversational, enthusiastic about movies, and provide helpful recommendations."""
 
         hist = "\n".join([
             f"{'User' if msg['role'] == 'user' else 'Assistant'}: {msg['content']}"
